@@ -1,148 +1,220 @@
 <!DOCTYPE html>
+
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>JewCasino</title>
 
 <style>
-body{
+*{
 margin:0;
+padding:0;
+box-sizing:border-box;
 font-family:Arial,sans-serif;
-background:#0f212e;
-color:white;
 }
 
-.header{
+body{
+background:#0b0f14;
+color:white;
 display:flex;
-justify-content:space-between;
-align-items:center;
-padding:15px;
-background:#172b3a;
+min-height:100vh;
+}
+
+.sidebar{
+width:240px;
+background:#111827;
+padding:20px;
+border-right:1px solid #1f2937;
 }
 
 .logo img{
-height:100px;
-width:auto;
+width:100%;
+max-width:180px;
+margin-bottom:30px;
+}
+
+.nav-item{
 display:block;
+padding:14px;
+margin-bottom:10px;
+background:#1f2937;
+border-radius:10px;
+text-decoration:none;
+color:white;
+font-weight:bold;
+}
+
+.nav-item:hover{
+background:#374151;
+}
+
+.main{
+flex:1;
+display:flex;
+flex-direction:column;
+}
+
+.topbar{
+background:#111827;
+height:90px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:0 30px;
+border-bottom:1px solid #1f2937;
 }
 
 .balance{
-background:#1f3a4d;
-padding:10px 15px;
-border-radius:10px;
+background:#1f2937;
+padding:12px 20px;
+border-radius:12px;
+font-size:20px;
+font-weight:bold;
 }
 
-.hero{
-padding:25px;
-}
-
-.hero h1{
-font-size:38px;
-margin-bottom:10px;
-}
-
-.hero p{
-opacity:.8;
-}
-
-.buttons{
+.auth{
 display:flex;
 gap:10px;
-margin-top:20px;
 }
 
-.btn{
+.auth button{
 padding:12px 20px;
 border:none;
 border-radius:10px;
-font-size:16px;
+font-weight:bold;
+cursor:pointer;
 }
 
 .login{
-background:#2f4553;
+background:#374151;
 color:white;
 }
 
 .register{
 background:#00e701;
 color:black;
-font-weight:bold;
+}
+
+.content{
+padding:30px;
 }
 
 .games{
-padding:20px;
 display:grid;
-grid-template-columns:1fr;
-gap:15px;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:20px;
 }
 
 .card{
-background:#172b3a;
-padding:20px;
-border-radius:15px;
+background:#111827;
+padding:25px;
+border-radius:16px;
+border:1px solid #1f2937;
 }
 
 .card h2{
-margin-top:0;
+margin-bottom:10px;
+}
+
+.card p{
+opacity:.8;
+margin-bottom:20px;
 }
 
 .play{
 background:#00e701;
+color:black;
 border:none;
 padding:12px 20px;
 border-radius:10px;
 font-weight:bold;
+cursor:pointer;
 }
 
-.footer{
-text-align:center;
-padding:30px;
-opacity:.6;
+@media(max-width:900px){
+
+body{
+flex-direction:column;
+}
+
+.sidebar{
+width:100%;
+border-right:none;
+border-bottom:1px solid #1f2937;
+}
+
+.topbar{
+padding:15px;
+height:auto;
+flex-wrap:wrap;
+gap:10px;
+}
+
 }
 </style>
+
 </head>
 
 <body>
 
-<div class="header">
+<div class="sidebar">
+
 <div class="logo">
-    <img src="logo.png.png" alt="JewCasino">
-</div>
-<div class="balance">$<span id="balance">1000</span> Demo Credits</div>
+<img src="logo.png.png" alt="JewCasino">
 </div>
 
-<div class="hero">
-<h1>Welcome to JewCasino</h1>
-<p>Play demo casino games with fake credits.</p>
+<a class="nav-item" href="index.html">🏠 Home</a> <a class="nav-item" href="Blackjack.html">🃏 Blackjack</a> <a class="nav-item" href="Dice.html">🎲 Dice</a>
 
-<div class="buttons">
-<button class="btn login" onclick="location.href='Login.html'">Login</button>
-<button class="btn register" onclick="location.href='Register.html'">Register</button>
 </div>
+
+<div class="main">
+
+<div class="topbar">
+
+<div></div>
+
+<div class="balance">
+$<span id="balance">1000</span>
 </div>
+
+<div class="auth">
+<button class="login" onclick="location.href='Login.html'">Login</button>
+<button class="register" onclick="location.href='Register.html'">Register</button>
+</div>
+
+</div>
+
+<div class="content">
+
+<h1 style="margin-bottom:25px;">Welcome to JewCasino</h1>
 
 <div class="games">
-
 <div class="card">
 <h2>🃏 Blackjack</h2>
 <p>Beat the dealer and win demo credits.</p>
-<button class="play" onclick="location.href='Blackjack.html'">Play Blackjack</button>
+<button class="play" onclick="location.href='Blackjack.html'">
+Play Blackjack
+</button>
 </div>
 
 <div class="card">
 <h2>🎲 Dice</h2>
-<p>Roll and win big demo payouts.</p>
-<button class="play" onclick="location.href='Dice.html'">Play Dice</button>
+<p>Roll under 50 and win demo credits.</p>
+<button class="play" onclick="location.href='Dice.html'">
+Play Dice
+</button>
 </div>
 
 </div>
 
-<div class="footer">
-JewCasino Demo • Fake Money Only
 </div>
+
+</div>
+
 <script>
 document.getElementById("balance").innerText =
 localStorage.getItem("balance") || 1000;
 </script>
+
 </body>
 </html>
