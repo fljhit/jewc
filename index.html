@@ -26,11 +26,13 @@ width:280px;
 background:#111827;
 padding:20px;
 border-right:1px solid #1f2937;
+overflow-y:auto;
 }
 
 .logo img{
 width:220px;
-margin-bottom:30px;
+display:block;
+margin:0 auto 30px auto;
 }
 
 .nav-item{
@@ -94,6 +96,7 @@ color:white;
 .register{
 background:#00e701;
 color:black;
+font-weight:bold;
 }
 
 .content{
@@ -112,7 +115,7 @@ gap:20px;
 
 .card{
 background:#111827;
-padding:30px;
+padding:25px;
 border-radius:16px;
 border:1px solid #1f2937;
 transition:.2s;
@@ -174,7 +177,7 @@ gap:10px;
 <img src="logo.png.png" alt="JewCasino">
 </div>
 
-<a class="nav-item" href="index.html">🏠 Home</a> <a class="nav-item" href="Blackjack.html">🃏 Blackjack</a> <a class="nav-item" href="Dice.html">🎲 Dice</a> <a class="nav-item" href="Mines.html">💣 Mines</a> <a class="nav-item" href="Plinko.html">🎯 Plinko</a> <a class="nav-item" href="Roulette.html">🎡 Roulette</a> <a class="nav-item" href="Slots.html">🎰 Slots</a>
+<a class="nav-item" href="index.html">🏠 Home</a> <a class="nav-item" href="Blackjack.html">🃏 Blackjack</a> <a class="nav-item" href="Dice.html">🎲 Dice</a> <a class="nav-item" href="Mines.html">💣 Mines</a> <a class="nav-item" href="Plinko.html">🎯 Plinko</a> <a class="nav-item" href="Roulette.html">🎡 Roulette</a> <a class="nav-item" href="Slots.html">🎰 Slots</a> <a class="nav-item" href="Chicken.html">🐔 Chicken</a> <a class="nav-item" href="HiLo.html">🃏 Hi-Lo</a> <a class="nav-item" href="Keno.html">🎱 Keno</a> <a class="nav-item" href="Baccarat.html">👑 Baccarat</a> <a class="nav-item" href="RPS.html">✊ RPS</a>
 
 </div>
 
@@ -185,7 +188,7 @@ gap:10px;
 <div></div>
 
 <div class="balance">
-$<span id="balance">1000</span>
+Balance: $<span id="balance">1000</span>
 </div>
 
 <div class="auth">
@@ -204,49 +207,67 @@ $<span id="balance">1000</span>
 <div class="card">
 <h2>🃏 Blackjack</h2>
 <p>Beat the dealer and win demo credits.</p>
-<button class="play" onclick="location.href='Blackjack.html'">
-Play Blackjack
-</button>
+<button class="play" onclick="location.href='Blackjack.html'">Play</button>
 </div>
 
 <div class="card">
 <h2>🎲 Dice</h2>
-<p>Roll under 50 and win demo credits.</p>
-<button class="play" onclick="location.href='Dice.html'">
-Play Dice
-</button>
+<p>Roll under 50 to win.</p>
+<button class="play" onclick="location.href='Dice.html'">Play</button>
 </div>
 
 <div class="card">
 <h2>💣 Mines</h2>
-<p>Find gems and cash out before hitting a mine.</p>
-<button class="play" onclick="location.href='Mines.html'">
-Play Mines
-</button>
+<p>Avoid the mines and cash out.</p>
+<button class="play" onclick="location.href='Mines.html'">Play</button>
 </div>
 
 <div class="card">
 <h2>🎯 Plinko</h2>
-<p>Drop the ball and chase multipliers.</p>
-<button class="play" onclick="location.href='Plinko.html'">
-Play Plinko
-</button>
+<p>Drop the ball for multipliers.</p>
+<button class="play" onclick="location.href='Plinko.html'">Play</button>
 </div>
 
 <div class="card">
 <h2>🎡 Roulette</h2>
-<p>Bet on red, black, or your lucky number.</p>
-<button class="play" onclick="location.href='Roulette.html'">
-Play Roulette
-</button>
+<p>Bet on numbers, red, or black.</p>
+<button class="play" onclick="location.href='Roulette.html'">Play</button>
 </div>
 
 <div class="card">
 <h2>🎰 Slots</h2>
-<p>Spin the reels and hit the jackpot.</p>
-<button class="play" onclick="location.href='Slots.html'">
-Play Slots
-</button>
+<p>Spin the reels and hit jackpots.</p>
+<button class="play" onclick="location.href='Slots.html'">Play</button>
+</div>
+
+<div class="card">
+<h2>🐔 Chicken</h2>
+<p>Climb safely and avoid the fox.</p>
+<button class="play" onclick="location.href='Chicken.html'">Play</button>
+</div>
+
+<div class="card">
+<h2>🃏 Hi-Lo</h2>
+<p>Guess if the next card is higher or lower.</p>
+<button class="play" onclick="location.href='HiLo.html'">Play</button>
+</div>
+
+<div class="card">
+<h2>🎱 Keno</h2>
+<p>Pick numbers and win big.</p>
+<button class="play" onclick="location.href='Keno.html'">Play</button>
+</div>
+
+<div class="card">
+<h2>👑 Baccarat</h2>
+<p>Bet on Player, Banker, or Tie.</p>
+<button class="play" onclick="location.href='Baccarat.html'">Play</button>
+</div>
+
+<div class="card">
+<h2>✊ RPS</h2>
+<p>Rock Paper Scissors vs the house.</p>
+<button class="play" onclick="location.href='RPS.html'">Play</button>
 </div>
 
 </div>
