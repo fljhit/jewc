@@ -96,9 +96,9 @@ dealerHtml += `<img src="${c}.png" style="height:120px;margin:5px;">`;
 }
 
 document.getElementById("dealer").innerHTML = dealerHtml;
-}
 
 }
+
 function deal(){
 let bet=parseInt(document.getElementById("bet").value);
 if(bet>balance||bet<=0){alert("Invalid bet");return;}
