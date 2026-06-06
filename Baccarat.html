@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JewCasino Baccarat</title>
+
+<style>
+
+body{
+background:#0f212e;
+color:white;
+font-family:Arial,sans-serif;
+margin:0;
+padding:20px;
+text-align:center;
+}
+
+.watermark{
+position:fixed;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+opacity:.05;
+pointer-events:none;
+z-index:0;
+}
+
+.watermark img{
+width:600px;
+}
+
+.container{
+position:relative;
+z-index:1;
+}
+
+.card{
+background:#172b3a;
+padding:20px;
+border-radius:15px;
+max-width:1000px;
+margin:auto;
+margin-bottom:20px;
+}
+
+input{
+padding:10px;
+border:none;
+border-radius:8px;
+width:120px;
+}
+
+button{
+padding:12px 20px;
+border:none;
+border-radius:10px;
+font-weight:bold;
+cursor:pointer;
+margin:5px;
+}
+
+.hand{
+margin:20px 0;
+}
+
+.hand img{
+height:220px;
+margin:5px;
+}
+
+#message{
+font-size:28px;
+font-weight:bold;
+margin-top:20px;
+}
+
+.score{
+font-size:22px;
+font-weight:bold;
+margin-bottom:10px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="watermark">
+<img src="logo.png.png">
+</div>
+
+<div class="container">
+
+<button onclick="location.href='index.html'">🏠 Home</button>
+
+<h1>👑 Baccarat</h1>
+
+<div class="card">
+
+<h2>Balance: $<span id="balance">1000</span></h2>
+
+Bet: <input id="bet" type="number" value="25">
+
+<br><br>
+
+<button onclick="play('player')">Player</button> <button onclick="play('banker')">Banker</button> <button onclick="play('tie')">Tie</button>
+
+<div id="message"></div>
+
+</div>
+
+<div class="card">
+
+<h2>Player</h2>
+
+<div class="score" id="playerScore">Score: 0</div>
+
+<div class="hand" id="playerHand"></div>
+
+<h2>Banker</h2>
+
+<div class="score" id="bankerScore">Score: 0</div>
+
+<div class="hand" id="bankerHand"></div>
+
+</div>
+
+<script>
+
+let balance=parseInt(localStorage.getItem("balance")||1000);
+document.getElementById("balance").innerText=balance;
+
+function save(){
+localStorage.setItem("balance",balance);
+document.getElementById("balance").innerText=balance;
+}
+
+const deck=[
+"SA","S2","S3","S4","S5","S6","S7","S8","S9","S10","SJ","SQ","SK",
+"HA","H2","H3","H4","H5","H6","H7","H8","H9","H10","HJ","HQ","HK",
+"DA","D2","D3","D4","D5","D6","D7","D8","D9","D10","DJ","DQ","DK",
+"CA","C2","C3","C4","C5","C6","C7","C8","C9","C10","CJ","CQ","CK"
+];
+
+function randomCard(){
+return deck[Math.floor(Math.random()*deck.length)];
+}
+
+function baccaratValue(card){
+function handScore(hand){
+
+let total=0;
+
+for(let card of hand){
+total+=baccaratValue(card);
+}
+
+return total%10;
+
+}
+
+function showHand(id,hand){
+
+let html="";
+
+for(let card of hand){
+
+html+=
+`<img src="${card}.png">`;
+
+}
+
+document.getElementById(id).innerHTML=html;
+
+}
+
+function play(choice){
+
+let bet=parseInt(document.getElementById("bet").value);
+
+if(bet<=0||bet>balance){
+alert("Invalid bet");
+return;
+}
+
+let player=[
+randomCard(),
+randomCard()
+];
+
+let banker=[
+randomCard(),
+randomCard()
+];
+
+let playerTotal=handScore(player);
+let bankerTotal=handScore(banker);
+
+showHand("playerHand",player);
+showHand("bankerHand",banker);
+
+document.getElementById("playerScore").innerText=
+"Score: "+playerTotal;
+
+document.getElementById("bankerScore").innerText=
+"Score: "+bankerTotal;
+
+let winner="";
+
+if(playerTotal>bankerTotal){
+winner="player";
+}else if(bankerTotal>playerTotal){
+winner="banker";
+}else{
+winner="tie";
+}
+
+let payout=0;
+
+if(choice===winner){
+
+if(winner==="tie"){
+payout=bet*8;
+}else{
+payout=bet*2;
+}
+
+balance=balance-bet+payout;
+
+document.getElementById("message").innerText=
+"🎉 "+winner.toUpperCase()+" WINS! Won $"+payout;
+
+}else{
+
+balance-=bet;
+
+document.getElementById("message").innerText=
+"❌ "+winner.toUpperCase()+" WINS";
+
+}
+
+save();
+
+}
+
+</script>
+
+</body>
+</html>
+
+let rank=card.substring(1);
+
+if(rank==="A") return 1;
+
+if(
+rank==="10" ||
+rank==="J" ||
+rank==="Q" ||
+rank==="K"
+){
+return 0;
+}
+
+return parseInt(rank);
+}
