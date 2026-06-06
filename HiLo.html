@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JewCasino Hi-Lo</title>
+
+<style>
+
+body{
+background:#0f212e;
+color:white;
+font-family:Arial,sans-serif;
+margin:0;
+padding:20px;
+text-align:center;
+}
+
+.watermark{
+position:fixed;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+opacity:.05;
+pointer-events:none;
+z-index:0;
+}
+
+.watermark img{
+width:600px;
+}
+
+.container{
+position:relative;
+z-index:1;
+}
+
+.card{
+background:#172b3a;
+padding:20px;
+border-radius:15px;
+max-width:900px;
+margin:auto;
+margin-bottom:20px;
+}
+
+input{
+padding:10px;
+border:none;
+border-radius:8px;
+width:120px;
+}
+
+button{
+padding:12px 20px;
+border:none;
+border-radius:10px;
+font-weight:bold;
+cursor:pointer;
+margin:5px;
+font-size:16px;
+}
+
+.game-card{
+height:300px;
+margin:20px auto;
+display:block;
+}
+
+#multiplier{
+font-size:32px;
+font-weight:bold;
+margin-top:15px;
+}
+
+#message{
+font-size:24px;
+font-weight:bold;
+margin-top:15px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="watermark">
+<img src="logo.png.png">
+</div>
+
+<div class="container">
+
+<button onclick="location.href='index.html'">🏠 Home</button>
+
+<h1>🃏 Hi-Lo</h1>
+
+<div class="card">
+
+<h2>Balance: $<span id="balance">1000</span></h2>
+
+Bet: <input id="bet" type="number" value="25">
+
+<button onclick="startGame()">Start</button> <button onclick="cashOut()">Cash Out</button>
+
+<div id="multiplier">Multiplier: 1.00x</div>
+
+<div id="message"></div>
+
+</div>
+
+<img id="cardImage" class="game-card" src="Back.png">
+
+<div>
+
+<button onclick="guess('higher')">⬆️ HIGHER</button> <button onclick="guess('lower')">⬇️ LOWER</button>
+
+</div>
+
+<script>
+
+let balance=parseInt(localStorage.getItem("balance")||1000);
+document.getElementById("balance").innerText=balance;
+
+function save(){
+localStorage.setItem("balance",balance);
+document.getElementById("balance").innerText=balance;
+}
+
+const deck=[
+"SA","S2","S3","S4","S5","S6","S7","S8","S9","S10","SJ","SQ","SK",
+"HA","H2","H3","H4","H5","H6","H7","H8","H9","H10","HJ","HQ","HK",
+"DA","D2","D3","D4","D5","D6","D7","D8","D9","D10","DJ","DQ","DK",
+"CA","C2","C3","C4","C5","C6","C7","C8","C9","C10","CJ","CQ","CK"
+];
+
+let active=false;
+let currentCard="";
+let multiplier=1;
+let betAmount=0;
+function cardValue(card){
+
+let rank=card.substring(1);
+
+if(rank==="A") return 14;
+if(rank==="K") return 13;
+if(rank==="Q") return 12;
+if(rank==="J") return 11;
+
+return parseInt(rank);
+
+}
+
+function randomCard(){
+
+return deck[Math.floor(Math.random()*deck.length)];
+
+}
+
+function startGame(){
+
+betAmount=parseInt(document.getElementById("bet").value);
+
+if(betAmount<=0||betAmount>balance){
+alert("Invalid bet");
+return;
+}
+
+active=true;
+multiplier=1;
+
+document.getElementById("multiplier").innerText=
+"Multiplier: 1.00x";
+
+document.getElementById("message").innerText="";
+
+currentCard=randomCard();
+
+document.getElementById("cardImage").src=
+currentCard+".png";
+
+}
+
+function guess(direction){
+
+if(!active)return;
+
+let nextCard=randomCard();
+
+let currentValue=cardValue(currentCard);
+let nextValue=cardValue(nextCard);
+
+document.getElementById("cardImage").src=
+nextCard+".png";
+
+let correct=false;
+
+if(direction==="higher" && nextValue>currentValue){
+correct=true;
+}
+
+if(direction==="lower" && nextValue<currentValue){
+correct=true;
+}
+
+if(correct){
+
+multiplier+=0.25;
+
+document.getElementById("multiplier").innerText=
+"Multiplier: "+multiplier.toFixed(2)+"x";
+
+document.getElementById("message").innerText=
+"✅ Correct!";
+
+currentCard=nextCard;
+
+}else{
+
+balance-=betAmount;
+
+save();
+
+document.getElementById("message").innerText=
+"❌ Wrong Guess!";
+
+active=false;
+
+}
+
+}
+
+function cashOut(){
+
+if(!active)return;
+
+let winnings=Math.floor(betAmount*multiplier);
+
+balance+=winnings;
+
+save();
+
+document.getElementById("message").innerText=
+"💰 Cashed Out: $"+winnings;
+
+active=false;
+
+}
+
+</script>
+
+</body>
+</html>
