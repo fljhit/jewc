@@ -1,1 +1,90 @@
-
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JewCasino Blackjack</title>
+<style>
+body{background:#0f212e;color:white;font-family:Arial;padding:20px;margin:0}
+.card{background:#172b3a;padding:20px;border-radius:15px;margin-bottom:15px}
+input{padding:10px;border:none;border-radius:8px;width:100px}
+button{padding:10px 15px;border:none;border-radius:8px;margin:5px;font-weight:bold}
+#message{font-size:20px;font-weight:bold;margin-top:10px}
+</style>
+</head>
+<body>
+<h1>🃏 Blackjack</h1>
+<div class="card">
+<h2>Balance: $<span id="balance">1000</span></h2>
+Bet: <input id="bet" type="number" value="25">
+<button onclick="deal()">Deal</button>
+</div>
+<div class="card">
+<h3>Dealer</h3>
+<div id="dealer">-</div>
+</div>
+<div class="card">
+<h3>Player</h3>
+<div id="player">-</div>
+<button onclick="hit()">Hit</button>
+<button onclick="stand()">Stand</button>
+<div id="message"></div>
+</div>
+<script>
+let balance=parseInt(localStorage.getItem("balance")||1000);
+document.getElementById("balance").innerText=balance;
+let player=[],dealer=[],active=false;
+function card(){return Math.floor(Math.random()*10)+1;}
+function total(h){return h.reduce((a,b)=>a+b,0);}
+function save(){
+localStorage.setItem("balance",balance);
+document.getElementById("balance").innerText=balance;
+}
+function update(){
+document.getElementById("player").innerText=player.join(" ");
+document.getElementById("dealer").innerText=active?dealer[0]+" ?":dealer.join(" ");
+}
+function deal(){
+let bet=parseInt(document.getElementById("bet").value);
+if(bet>balance||bet<=0){alert("Invalid bet");return;}
+player=[card(),card()];
+dealer=[card(),card()];
+active=true;
+document.getElementById("message").innerText="";
+update();
+}
+function hit(){
+if(!active)return;
+player.push(card());
+update();
+if(total(player)>21)lose();
+}
+function stand(){
+if(!active)return;
+active=false;
+while(total(dealer)<17)dealer.push(card());
+update();
+let p=total(player);
+let d=total(dealer);
+if(d>21||p>d)win();
+else if(p==d)push();
+else lose();
+}
+function win(){
+let bet=parseInt(document.getElementById("bet").value);
+balance+=bet;
+save();
+document.getElementById("message").innerText="You Win!";
+}
+function lose(){
+let bet=parseInt(document.getElementById("bet").value);
+balance-=bet;
+save();
+document.getElementById("message").innerText="You Lose!";
+active=false;
+}
+function push(){
+document.getElementById("message").innerText="Push";
+}
+</script>
+</body>
+</html>
