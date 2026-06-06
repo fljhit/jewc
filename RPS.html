@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JewCasino RPS</title>
+
+<style>
+
+body{
+background:#0f212e;
+color:white;
+font-family:Arial,sans-serif;
+margin:0;
+padding:20px;
+text-align:center;
+}
+
+.watermark{
+position:fixed;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+opacity:.05;
+pointer-events:none;
+z-index:0;
+}
+
+.watermark img{
+width:600px;
+}
+
+.container{
+position:relative;
+z-index:1;
+}
+
+.card{
+background:#172b3a;
+padding:20px;
+border-radius:15px;
+max-width:900px;
+margin:auto;
+margin-bottom:20px;
+}
+
+input{
+padding:10px;
+border:none;
+border-radius:8px;
+width:120px;
+}
+
+.choice{
+font-size:80px;
+padding:20px;
+margin:10px;
+cursor:pointer;
+border:none;
+border-radius:15px;
+}
+
+.choice:hover{
+transform:scale(1.1);
+}
+
+#battle{
+font-size:100px;
+margin:30px 0;
+}
+
+#message{
+font-size:30px;
+font-weight:bold;
+margin-top:20px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="watermark">
+<img src="logo.png.png">
+</div>
+
+<div class="container">
+
+<button onclick="location.href='index.html'">🏠 Home</button>
+
+<h1>✊✋✌️ Rock Paper Scissors</h1>
+
+<div class="card">
+
+<h2>Balance: $<span id="balance">1000</span></h2>
+
+Bet: <input id="bet" type="number" value="25">
+
+</div>
+
+<div>
+
+<button class="choice" onclick="play('rock')">✊</button> <button class="choice" onclick="play('paper')">✋</button> <button class="choice" onclick="play('scissors')">✌️</button>
+
+</div>
+
+<div id="battle">
+❓ VS ❓
+</div>
+
+<div id="message"></div>
+
+<script>
+
+let balance=parseInt(localStorage.getItem("balance")||1000);
+document.getElementById("balance").innerText=balance;
+
+function save(){
+localStorage.setItem("balance",balance);
+document.getElementById("balance").innerText=balance;
+}
+
+const choices=["rock","paper","scissors"];
+
+function emoji(choice){
+
+if(choice==="rock") return "✊";
+if(choice==="paper") return "✋";
+return "✌️";
+
+}
+function play(playerChoice){
+
+let bet=parseInt(document.getElementById("bet").value);
+
+if(bet<=0||bet>balance){
+alert("Invalid bet");
+return;
+}
+
+document.getElementById("message").innerText="";
+
+let battle=document.getElementById("battle");
+
+battle.innerText="⏳";
+
+setTimeout(function(){
+
+battle.innerText="3";
+
+setTimeout(function(){
+
+battle.innerText="2";
+
+setTimeout(function(){
+
+battle.innerText="1";
+
+setTimeout(function(){
+
+let houseChoice=
+choices[Math.floor(Math.random()*3)];
+
+battle.innerHTML=
+emoji(playerChoice)+" VS "+emoji(houseChoice);
+
+let result="";
+
+if(playerChoice===houseChoice){
+
+result="tie";
+
+}else if(
+(playerChoice==="rock" && houseChoice==="scissors") ||
+(playerChoice==="paper" && houseChoice==="rock") ||
+(playerChoice==="scissors" && houseChoice==="paper")
+){
+
+result="win";
+
+}else{
+
+result="lose";
+
+}
+
+if(result==="win"){
+
+let payout=bet*2;
+
+balance=balance-bet+payout;
+
+document.getElementById("message").innerText=
+"🎉 YOU WIN! Won $"+payout;
+
+}else if(result==="tie"){
+
+document.getElementById("message").innerText=
+"🤝 TIE";
+
+}else{
+
+balance-=bet;
+
+document.getElementById("message").innerText=
+"❌ YOU LOSE";
+
+}
+
+save();
+
+},500);
+
+},500);
+
+},500);
+
+},500);
+
+}
+
+</script>
+
+</body>
+</html>
