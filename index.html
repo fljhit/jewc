@@ -137,6 +137,9 @@ opacity:.6;
 <div class="footer">
 JewCasino Demo • Fake Money Only
 </div>
-
+<script>
+document.getElementById("balance").innerText =
+localStorage.getItem("balance") || 1000;
+</script>
 </body>
 </html>
