@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>JewCasino Roulette</title>
+<title>JewCasino Roulette V2</title>
 
 <style>
 
@@ -63,34 +63,39 @@ margin:5px;
 
 .roulette-container{
 position:relative;
-width:500px;
-height:500px;
+width:600px;
+height:600px;
 margin:30px auto;
 }
 
 .wheel{
-width:500px;
-height:500px;
+width:600px;
+height:600px;
 border-radius:50%;
 position:relative;
-border:10px solid #222;
+border:12px solid #222;
 background:#111;
-transition:transform 5s cubic-bezier(.15,.85,.25,1);
 overflow:hidden;
+transition:transform 6s cubic-bezier(.15,.85,.25,1);
 }
 
 .ball{
 position:absolute;
-top:-15px;
-left:235px;
-font-size:28px;
-z-index:20;
+width:24px;
+height:24px;
+border-radius:50%;
+background:white;
+top:288px;
+left:288px;
+z-index:50;
+box-shadow:0 0 10px white;
+transition:all 1s ease;
 }
 
 .number{
 position:absolute;
-width:40px;
-height:40px;
+width:42px;
+height:42px;
 border-radius:50%;
 display:flex;
 align-items:center;
@@ -114,7 +119,7 @@ background:#00a651;
 }
 
 #result{
-font-size:32px;
+font-size:36px;
 font-weight:bold;
 margin-top:20px;
 }
@@ -123,6 +128,10 @@ margin-top:20px;
 font-size:24px;
 font-weight:bold;
 margin-top:15px;
+}
+
+.glow{
+box-shadow:0 0 20px gold;
 }
 
 </style>
@@ -163,11 +172,9 @@ Bet: <input id="bet" type="number" value="25">
 
 <div class="roulette-container">
 
-<div class="ball">⚪</div>
+<div class="wheel" id="wheel"></div>
 
-<div class="wheel" id="wheel">
-
-</div>
+<div class="ball" id="ball"></div>
 
 </div>
 
@@ -184,6 +191,7 @@ document.getElementById("balance").innerText=balance;
 }
 
 const wheel=document.getElementById("wheel");
+const ball=document.getElementById("ball");
 
 const redNumbers=[
 1,3,5,7,9,12,14,16,18,
@@ -204,14 +212,16 @@ div.classList.add("red");
 div.classList.add("black");
 }
 
+div.id="num"+i;
+
 div.innerText=i;
 
 const angle=(i/37)*360;
 
-const radius=210;
+const radius=250;
 
-const x=Math.cos(angle*Math.PI/180)*radius+230;
-const y=Math.sin(angle*Math.PI/180)*radius+230;
+const x=Math.cos(angle*Math.PI/180)*radius+280;
+const y=Math.sin(angle*Math.PI/180)*radius+280;
 
 div.style.left=x+"px";
 div.style.top=y+"px";
@@ -219,9 +229,7 @@ div.style.top=y+"px";
 wheel.appendChild(div);
 
 }
-
-let spinning=false;
-function spin(){
+  function spin(){
 
 if(spinning)return;
 
@@ -234,15 +242,54 @@ return;
 
 spinning=true;
 
+for(let i=0;i<=36;i++){
+let el=document.getElementById("num"+i);
+if(el) el.classList.remove("glow");
+}
+
 let resultNumber=Math.floor(Math.random()*37);
 
-let spins=360*8;
+let spins=360*10;
 let stopAngle=(resultNumber/37)*360;
 
 wheel.style.transform=
 `rotate(${spins+stopAngle}deg)`;
 
+let orbitAngle=0;
+
+let orbit=setInterval(function(){
+
+orbitAngle+=15;
+
+let radius=285;
+
+let x=Math.cos(orbitAngle*Math.PI/180)*radius+288;
+let y=Math.sin(orbitAngle*Math.PI/180)*radius+288;
+
+ball.style.left=x+"px";
+ball.style.top=y+"px";
+
+},30);
+
 setTimeout(function(){
+
+clearInterval(orbit);
+
+let angle=(resultNumber/37)*360;
+
+let radius=250;
+
+let x=Math.cos(angle*Math.PI/180)*radius+288;
+let y=Math.sin(angle*Math.PI/180)*radius+288;
+
+ball.style.left=x+"px";
+ball.style.top=y+"px";
+
+let winningPocket=document.getElementById("num"+resultNumber);
+
+if(winningPocket){
+winningPocket.classList.add("glow");
+}
 
 let betType=document.getElementById("betType").value;
 
@@ -307,7 +354,7 @@ document.getElementById("message").innerText=
 balance-=bet;
 
 document.getElementById("message").innerText=
-"❌ LOSE!";
+"❌ LOSE! Number "+resultNumber;
 
 }
 
@@ -315,7 +362,7 @@ save();
 
 spinning=false;
 
-},5000);
+},6000);
 
 }
 
@@ -323,3 +370,6 @@ spinning=false;
 
 </body>
 </html>
+
+
+let spinning=false;
