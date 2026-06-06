@@ -1,1 +1,73 @@
 
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JewCasino Dice</title>
+<style>
+body{background:#0f212e;color:white;font-family:Arial;padding:20px;margin:0}
+.card{background:#172b3a;padding:20px;border-radius:15px;margin-bottom:15px}
+input{padding:10px;border:none;border-radius:8px;width:100px}
+button{padding:10px 15px;border:none;border-radius:8px;margin:5px;font-weight:bold}
+#result{font-size:28px;font-weight:bold;margin-top:10px}
+</style>
+</head>
+<body>
+
+<button onclick="location.href='index.html'">🏠 Home</button>
+
+<h1>🎲 Dice</h1>
+
+<div class="card">
+<h2>Balance: $<span id="balance">1000</span></h2>
+
+Bet:
+<input id="bet" type="number" value="25">
+
+<button onclick="rollDice()">Roll</button>
+</div>
+
+<div class="card">
+<h3>Roll Under 50 To Win</h3>
+
+<div id="result">-</div>
+
+<div id="message"></div>
+</div>
+
+<script>
+let balance=parseInt(localStorage.getItem("balance")||1000);
+document.getElementById("balance").innerText=balance;
+
+function save(){
+localStorage.setItem("balance",balance);
+document.getElementById("balance").innerText=balance;
+}
+
+function rollDice(){
+
+let bet=parseInt(document.getElementById("bet").value);
+
+if(bet<=0||bet>balance){
+alert("Invalid bet");
+return;
+}
+
+let roll=Math.floor(Math.random()*100)+1;
+
+document.getElementById("result").innerText=roll;
+
+if(roll<50){
+balance+=bet;
+document.getElementById("message").innerText="🎉 You Win!";
+}else{
+balance-=bet;
+document.getElementById("message").innerText="❌ You Lose!";
+}
+
+save();
+}
+</script>
+
+</body>
+</html>
