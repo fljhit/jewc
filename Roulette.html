@@ -1,12 +1,12 @@
 <!DOCTYPE html>
+<!DOCTYPE html>
 
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>JewCasino Roulette V2</title>
+<title>JewCasino Roulette</title>
 
 <style>
-
 body{
 background:#0f212e;
 color:white;
@@ -118,6 +118,10 @@ border:1px solid #666;
 background:#00a651;
 }
 
+.glow{
+box-shadow:0 0 20px gold;
+}
+
 #result{
 font-size:36px;
 font-weight:bold;
@@ -129,11 +133,6 @@ font-size:24px;
 font-weight:bold;
 margin-top:15px;
 }
-
-.glow{
-box-shadow:0 0 20px gold;
-}
-
 </style>
 
 </head>
@@ -213,11 +212,9 @@ div.classList.add("black");
 }
 
 div.id="num"+i;
-
 div.innerText=i;
 
 const angle=(i/37)*360;
-
 const radius=250;
 
 const x=Math.cos(angle*Math.PI/180)*radius+280;
@@ -229,7 +226,9 @@ div.style.top=y+"px";
 wheel.appendChild(div);
 
 }
-  function spin(){
+
+let spinning=false;
+function spin(){
 
 if(spinning)return;
 
@@ -261,10 +260,10 @@ let orbit=setInterval(function(){
 
 orbitAngle+=15;
 
-let radius=285;
+let orbitRadius=285;
 
-let x=Math.cos(orbitAngle*Math.PI/180)*radius+288;
-let y=Math.sin(orbitAngle*Math.PI/180)*radius+288;
+let x=Math.cos(orbitAngle*Math.PI/180)*orbitRadius+288;
+let y=Math.sin(orbitAngle*Math.PI/180)*orbitRadius+288;
 
 ball.style.left=x+"px";
 ball.style.top=y+"px";
@@ -370,6 +369,3 @@ spinning=false;
 
 </body>
 </html>
-
-
-let spinning=false;
