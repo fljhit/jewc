@@ -14,6 +14,25 @@ padding:20px;
 margin:0;
 }
 
+.watermark{
+position:fixed;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+opacity:.05;
+pointer-events:none;
+z-index:0;
+}
+
+.watermark img{
+width:500px;
+}
+
+.container{
+position:relative;
+z-index:1;
+}
+
 .card{
 background:#172b3a;
 padding:20px;
@@ -40,13 +59,15 @@ margin:5px;
 
 .grid{
 display:grid;
-grid-template-columns:repeat(5,1fr);
+grid-template-columns:repeat(5,90px);
 gap:10px;
 margin-top:20px;
+justify-content:center;
 }
 
 .tile{
-height:80px;
+width:90px;
+height:90px;
 background:#1f3a4d;
 border-radius:10px;
 display:flex;
@@ -55,28 +76,38 @@ justify-content:center;
 font-size:32px;
 cursor:pointer;
 user-select:none;
+transition:.2s;
 }
 
 .tile:hover{
 background:#294c63;
+transform:scale(1.05);
 }
 
 #multiplier{
 font-size:28px;
 font-weight:bold;
 margin-top:15px;
+text-align:center;
 }
 
 #message{
 font-size:24px;
 font-weight:bold;
 margin-top:15px;
+text-align:center;
 }
 </style>
 
 </head>
 
 <body>
+
+<div class="watermark">
+<img src="logo.png.png">
+</div>
+
+<div class="container">
 
 <button onclick="location.href='index.html'">🏠 Home</button>
 
@@ -110,6 +141,8 @@ Mines: <select id="mineCount">
 </div>
 
 <div class="grid" id="grid"></div>
+
+</div>
 
 <script>
 
@@ -206,12 +239,12 @@ return;
 
 tile.innerHTML="💎";
 
-let increase = 0.05 + (mineCount * 0.03);
+let increase=0.05+(mineCount*0.03);
 
-multiplier += increase;
+multiplier+=increase;
 
-document.getElementById("multiplier").innerText =
-"Multiplier: " + multiplier.toFixed(2) + "x";
+document.getElementById("multiplier").innerText=
+"Multiplier: "+multiplier.toFixed(2)+"x";
 
 }
 
@@ -219,14 +252,14 @@ function cashOut(){
 
 if(!active)return;
 
-let winnings=Math.floor(betAmount * multiplier);
+let winnings=Math.floor(betAmount*multiplier);
 
 balance+=winnings;
 
 save();
 
 document.getElementById("message").innerText=
-"💰 Cashed Out: $" + winnings;
+"💰 Cashed Out: $"+winnings;
 
 active=false;
 
