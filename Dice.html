@@ -8,8 +8,30 @@
 body{background:#0f212e;color:white;font-family:Arial;padding:20px;margin:0}
 .card{background:#172b3a;padding:20px;border-radius:15px;margin-bottom:15px}
 input{padding:10px;border:none;border-radius:8px;width:100px}
-button{padding:10px 15px;border:none;border-radius:8px;margin:5px;font-weight:bold}
-#result{font-size:28px;font-weight:bold;margin-top:10px}
+button{
+padding:14px 28px;
+border:none;
+border-radius:10px;
+margin:5px;
+font-weight:bold;
+font-size:16px;
+cursor:pointer;
+}
+
+#result{
+  #message{
+font-size:32px;
+font-weight:bold;
+text-align:center;
+margin-top:20px;
+}
+
+font-size:80px;
+font-weight:bold;
+margin-top:20px;
+text-align:center;
+}
+
 </style>
 </head>
 <body>
@@ -53,17 +75,39 @@ alert("Invalid bet");
 return;
 }
 
+let counter = 0;
+
+let animation = setInterval(function(){
+
+document.getElementById("result").innerText =
+Math.floor(Math.random()*100)+1;
+
+counter++;
+
+if(counter >= 15){
+
+clearInterval(animation);
+
 let roll=Math.floor(Math.random()*100)+1;
 
 document.getElementById("result").innerText=roll;
 
 if(roll<50){
 balance+=bet;
-document.getElementById("message").innerText="🎉 You Win!";
+document.getElementById("message").innerText="🎉 YOU WIN!";
 }else{
 balance-=bet;
-document.getElementById("message").innerText="❌ You Lose!";
+document.getElementById("message").innerText="❌ YOU LOSE!";
 }
+
+save();
+
+}
+
+},50);
+
+}
+
 
 save();
 }
