@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JewCasino Keno</title>
+
+<style>
+
+body{
+background:#0f212e;
+color:white;
+font-family:Arial,sans-serif;
+margin:0;
+padding:20px;
+text-align:center;
+}
+
+.watermark{
+position:fixed;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+opacity:.05;
+pointer-events:none;
+z-index:0;
+}
+
+.watermark img{
+width:600px;
+}
+
+.container{
+position:relative;
+z-index:1;
+}
+
+.card{
+background:#172b3a;
+padding:20px;
+border-radius:15px;
+max-width:900px;
+margin:auto;
+margin-bottom:20px;
+}
+
+input{
+padding:10px;
+border:none;
+border-radius:8px;
+width:120px;
+}
+
+button{
+padding:12px 20px;
+border:none;
+border-radius:10px;
+font-weight:bold;
+cursor:pointer;
+margin:5px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(5,80px);
+gap:10px;
+justify-content:center;
+margin-top:20px;
+}
+
+.number{
+width:80px;
+height:80px;
+background:#1f3a4d;
+border-radius:10px;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:22px;
+cursor:pointer;
+}
+
+.selected{
+background:#00e701;
+color:black;
+font-weight:bold;
+}
+
+.hit{
+background:gold;
+color:black;
+font-weight:bold;
+}
+
+.drawn{
+background:#ff4d4d;
+}
+
+#message{
+font-size:24px;
+font-weight:bold;
+margin-top:20px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="watermark">
+<img src="logo.png.png">
+</div>
+
+<div class="container">
+
+<button onclick="location.href='index.html'">🏠 Home</button>
+
+<h1>🎱 Keno</h1>
+
+<div class="card">
+
+<h2>Balance: $<span id="balance">1000</span></h2>
+
+Bet: <input id="bet" type="number" value="25">
+
+<button onclick="drawKeno()">Draw</button>
+
+<div id="message"></div>
+
+</div>
+
+<div class="grid" id="grid"></div>
+
+<script>
+
+let balance=parseInt(localStorage.getItem("balance")||1000);
+document.getElementById("balance").innerText=balance;
+
+function save(){
+localStorage.setItem("balance",balance);
+document.getElementById("balance").innerText=balance;
+}
+
+let selected=[];
+
+const grid=document.getElementById("grid");
+
+for(let i=1;i<=40;i++){
+
+let tile=document.createElement("div");
+
+tile.className="number";
+tile.innerText=i;
+
+tile.onclick=function(){
+
+if(tile.classList.contains("selected")){
+
+tile.classList.remove("selected");
+selected=selected.filter(n=>n!==i);
+
+}else{
+
+if(selected.length>=10)return;
+
+tile.classList.add("selected");
+selected.push(i);
+
+}
+
+};
+
+grid.appendChild(tile);
+
+}
+function drawKeno(){
+
+let bet=parseInt(document.getElementById("bet").value);
+
+if(bet<=0||bet>balance){
+alert("Invalid bet");
+return;
+}
+
+if(selected.length===0){
+alert("Pick at least 1 number");
+return;
+}
+
+let tiles=document.querySelectorAll(".number");
+
+tiles.forEach(tile=>{
+tile.classList.remove("hit");
+tile.classList.remove("drawn");
+});
+
+let drawn=[];
+
+while(drawn.length<10){
+
+let num=Math.floor(Math.random()*40)+1;
+
+if(!drawn.includes(num)){
+drawn.push(num);
+}
+
+}
+
+let hits=0;
+
+tiles.forEach(tile=>{
+
+let num=parseInt(tile.innerText);
+
+if(drawn.includes(num)){
+
+tile.classList.add("drawn");
+
+if(selected.includes(num)){
+
+tile.classList.remove("drawn");
+tile.classList.add("hit");
+
+hits++;
+
+}
+
+}
+
+});
+
+let payout=0;
+
+if(hits>=8){
+payout=bet*100;
+}else if(hits===7){
+payout=bet*50;
+}else if(hits===6){
+payout=bet*25;
+}else if(hits===5){
+payout=bet*10;
+}else if(hits===4){
+payout=bet*5;
+}else if(hits===3){
+payout=bet*2;
+}
+
+if(payout>0){
+
+balance=balance-bet+payout;
+
+document.getElementById("message").innerText=
+"🎉 "+hits+" Hits! Won $"+payout;
+
+}else{
+
+balance-=bet;
+
+document.getElementById("message").innerText=
+"❌ "+hits+" Hits";
+
+}
+
+save();
+
+}
+
+</script>
+
+</body>
+</html>
