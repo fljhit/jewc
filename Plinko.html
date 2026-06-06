@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JewCasino Plinko</title>
+
+<style>
+
+body{
+background:#0f212e;
+color:white;
+font-family:Arial,sans-serif;
+padding:20px;
+margin:0;
+text-align:center;
+overflow-x:hidden;
+}
+
+.watermark{
+position:fixed;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+opacity:.05;
+pointer-events:none;
+z-index:0;
+}
+
+.watermark img{
+width:600px;
+}
+
+.container{
+position:relative;
+z-index:1;
+}
+
+.card{
+background:#172b3a;
+padding:20px;
+border-radius:15px;
+margin-bottom:20px;
+max-width:700px;
+margin-left:auto;
+margin-right:auto;
+}
+
+input{
+padding:10px;
+border:none;
+border-radius:8px;
+width:120px;
+}
+
+button{
+padding:12px 20px;
+border:none;
+border-radius:10px;
+font-weight:bold;
+cursor:pointer;
+margin:5px;
+}
+
+.board{
+position:relative;
+width:520px;
+height:500px;
+margin:20px auto;
+}
+
+.peg{
+position:absolute;
+width:12px;
+height:12px;
+background:white;
+border-radius:50%;
+}
+
+.ball{
+position:absolute;
+width:18px;
+height:18px;
+background:#00e701;
+border-radius:50%;
+left:251px;
+top:0;
+z-index:10;
+transition:all .15s linear;
+}
+
+.slots{
+display:grid;
+grid-template-columns:repeat(9,1fr);
+width:520px;
+margin:auto;
+gap:5px;
+}
+
+.slot{
+background:#1f3a4d;
+padding:12px;
+border-radius:8px;
+font-weight:bold;
+}
+
+#message{
+font-size:24px;
+font-weight:bold;
+margin-top:20px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="watermark">
+<img src="logo.png.png">
+</div>
+
+<div class="container">
+
+<button onclick="location.href='index.html'">🏠 Home</button>
+
+<h1>🎯 Plinko</h1>
+
+<div class="card">
+
+<h2>Balance: $<span id="balance">1000</span></h2>
+
+Bet: <input id="bet" type="number" value="25">
+
+<button onclick="dropBall()">Drop Ball</button>
+
+<div id="message"></div>
+
+</div>
+
+<div class="board" id="board">
+
+<div class="ball" id="ball"></div>
+
+</div>
+
+<div class="slots">
+
+<div class="slot">0.2x</div>
+<div class="slot">0.5x</div>
+<div class="slot">1x</div>
+<div class="slot">2x</div>
+<div class="slot">5x</div>
+<div class="slot">2x</div>
+<div class="slot">1x</div>
+<div class="slot">0.5x</div>
+<div class="slot">0.2x</div>
+
+</div>
+
+</div>
+
+<script>
+
+let balance=parseInt(localStorage.getItem("balance")||1000);
+document.getElementById("balance").innerText=balance;
+
+function save(){
+localStorage.setItem("balance",balance);
+document.getElementById("balance").innerText=balance;
+}
+
+const board=document.getElementById("board");
+
+for(let row=0;row<8;row++){
+
+let pegs=row+3;
+
+for(let col=0;col<pegs;col++){
+
+let peg=document.createElement("div");
+
+peg.className="peg";
+
+peg.style.top=(row*55+50)+"px";
+peg.style.left=(260-(pegs*20)/2+col*20)+"px";
+
+board.appendChild(peg);
+
+}
+
+}
+
+const multipliers=[0.2,0.5,1,2,5,2,1,0.5,0.2];
+
+let dropping=false;
+
+function dropBall(){
+
+if(dropping)return;
+
+let bet=parseInt(document.getElementById("bet").value);
+
+if(bet<=0||bet>balance){
+alert("Invalid bet");
+return;
+}
+
+dropping=true;
+
+const ball=document.getElementById("ball");
+
+let x=251;
+let y=0;
+
+ball.style.left=x+"px";
+ball.style.top=y+"px";
+
+let step=0;
+
+let animation=setInterval(function(){
+
+y+=55;
+
+if(Math.random()<0.5){
+x-=20;
+}else{
+x+=20;
+}
+
+ball.style.left=x+"px";
+ball.style.top=y+"px";
+
+step++;
+
+if(step>=8){
+
+clearInterval(animation);
+
+let slot=Math.floor(Math.random()*9);
+
+let winnings=Math.floor(bet*multipliers[slot]);
+
+balance=balance-bet+winnings;
+
+save();
+
+document.getElementById("message").innerText=
+"🎯 Landed on "+multipliers[slot]+"x • Won $"+winnings;
+
+ball.style.left=(slot*57+10)+"px";
+
+dropping=false;
+
+}
+
+},150);
+
+}
+
+</script>
+
+</body>
+</html>
