@@ -29,7 +29,6 @@ border-right:1px solid #1f2937;
 
 .logo img{
 width:220px;
-max-width:none;
 margin-bottom:30px;
 }
 
@@ -42,6 +41,7 @@ border-radius:10px;
 text-decoration:none;
 color:white;
 font-weight:bold;
+transition:.2s;
 }
 
 .nav-item:hover{
@@ -99,18 +99,26 @@ color:black;
 padding:30px;
 }
 
+.content h1{
+margin-bottom:25px;
+}
+
 .games{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
 gap:20px;
 }
 
 .card{
 background:#111827;
-padding:35px;
-min-height:220px;
+padding:30px;
 border-radius:16px;
 border:1px solid #1f2937;
+transition:.2s;
+}
+
+.card:hover{
+transform:translateY(-5px);
 }
 
 .card h2{
@@ -129,8 +137,13 @@ border:none;
 padding:14px 28px;
 border-radius:10px;
 font-weight:bold;
-font-size:16px;
 cursor:pointer;
+}
+
+.disabled{
+background:#444;
+color:white;
+cursor:not-allowed;
 }
 
 @media(max-width:900px){
@@ -146,8 +159,8 @@ border-bottom:1px solid #1f2937;
 }
 
 .topbar{
-padding:15px;
 height:auto;
+padding:15px;
 flex-wrap:wrap;
 gap:10px;
 }
@@ -165,7 +178,7 @@ gap:10px;
 <img src="logo.png.png" alt="JewCasino">
 </div>
 
-<a class="nav-item" href="index.html">🏠 Home</a> <a class="nav-item" href="Blackjack.html">🃏 Blackjack</a> <a class="nav-item" href="Dice.html">🎲 Dice</a> <a class="nav-item" href="Mines.html">💣 Mines</a>
+<a class="nav-item" href="index.html">🏠 Home</a> <a class="nav-item" href="Blackjack.html">🃏 Blackjack</a> <a class="nav-item" href="Dice.html">🎲 Dice</a> <a class="nav-item" href="Mines.html">💣 Mines</a> <a class="nav-item" href="Plinko.html">🎯 Plinko</a> <a class="nav-item" href="Roulette.html">🎡 Roulette</a>
 
 </div>
 
@@ -188,7 +201,7 @@ $<span id="balance">1000</span>
 
 <div class="content">
 
-<h1 style="margin-bottom:25px;">Welcome to JewCasino</h1>
+<h1>Welcome to JewCasino</h1>
 
 <div class="games">
 
@@ -213,6 +226,22 @@ Play Dice
 <p>Find gems, avoid mines, and cash out before you explode.</p>
 <button class="play" onclick="location.href='Mines.html'">
 Play Mines
+</button>
+</div>
+
+<div class="card">
+<h2>🎯 Plinko</h2>
+<p>Drop the ball and chase huge multipliers.</p>
+<button class="play" onclick="location.href='Plinko.html'">
+Play Plinko
+</button>
+</div>
+
+<div class="card">
+<h2>🎡 Roulette</h2>
+<p>Spin the wheel and bet on your lucky number.</p>
+<button class="play" onclick="location.href='Roulette.html'">
+Play Roulette
 </button>
 </div>
 
