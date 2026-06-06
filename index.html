@@ -1,39 +1,142 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>JewCasino</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JewCasino</title>
+
 <style>
 body{
-background:#0f172a;
-color:white;
-font-family:Arial,sans-serif;
-text-align:center;
-padding-top:100px;
 margin:0;
+font-family:Arial,sans-serif;
+background:#0f212e;
+color:white;
 }
-h1{
-font-size:56px;
+
+.header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:15px;
+background:#172b3a;
+}
+
+.logo{
+font-size:28px;
+font-weight:bold;
+}
+
+.balance{
+background:#1f3a4d;
+padding:10px 15px;
+border-radius:10px;
+}
+
+.hero{
+padding:25px;
+}
+
+.hero h1{
+font-size:38px;
 margin-bottom:10px;
 }
-p{
-font-size:20px;
+
+.hero p{
 opacity:.8;
 }
-button{
-background:#22c55e;
+
+.buttons{
+display:flex;
+gap:10px;
+margin-top:20px;
+}
+
+.btn{
+padding:12px 20px;
 border:none;
-padding:15px 30px;
-font-size:18px;
+border-radius:10px;
+font-size:16px;
+}
+
+.login{
+background:#2f4553;
 color:white;
-border-radius:12px;
-cursor:pointer;
+}
+
+.register{
+background:#00e701;
+color:black;
+font-weight:bold;
+}
+
+.games{
+padding:20px;
+display:grid;
+grid-template-columns:1fr;
+gap:15px;
+}
+
+.card{
+background:#172b3a;
+padding:20px;
+border-radius:15px;
+}
+
+.card h2{
+margin-top:0;
+}
+
+.play{
+background:#00e701;
+border:none;
+padding:12px 20px;
+border-radius:10px;
+font-weight:bold;
+}
+
+.footer{
+text-align:center;
+padding:30px;
+opacity:.6;
 }
 </style>
 </head>
+
 <body>
-<h1>JewCasino</h1>
-<p>Demo Casino Coming Soon</p>
-<button>Play Now</button>
+
+<div class="header">
+<div class="logo">🎰 JewCasino</div>
+<div class="balance">$1,000 Demo Credits</div>
+</div>
+
+<div class="hero">
+<h1>Welcome to JewCasino</h1>
+<p>Play demo casino games with fake credits.</p>
+
+<div class="buttons">
+<button class="btn login">Login</button>
+<button class="btn register">Register</button>
+</div>
+</div>
+
+<div class="games">
+
+<div class="card">
+<h2>🃏 Blackjack</h2>
+<p>Beat the dealer and win demo credits.</p>
+<button class="play">Play Blackjack</button>
+</div>
+
+<div class="card">
+<h2>🎲 Dice</h2>
+<p>Roll and win big demo payouts.</p>
+<button class="play">Play Dice</button>
+</div>
+
+</div>
+
+<div class="footer">
+JewCasino Demo • Fake Money Only
+</div>
+
 </body>
 </html>
