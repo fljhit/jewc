@@ -70,8 +70,34 @@ localStorage.setItem("balance",balance);
 document.getElementById("balance").innerText=balance;
 }
 function update(){
-document.getElementById("player").innerText=player.join(" ");
-document.getElementById("dealer").innerText=active?dealer[0]+" ?":dealer.join(" ");
+
+let playerHtml = "";
+
+for(let c of player){
+playerHtml += `<img src="${c}.png" style="height:120px;margin:5px;">`;
+}
+
+document.getElementById("player").innerHTML = playerHtml;
+
+let dealerHtml = "";
+
+if(active){
+
+dealerHtml =
+`<img src="${dealer[0]}.png" style="height:120px;margin:5px;">` +
+`<img src="Back.png" style="height:120px;margin:5px;">`;
+
+}else{
+
+for(let c of dealer){
+dealerHtml += `<img src="${c}.png" style="height:120px;margin:5px;">`;
+}
+
+}
+
+document.getElementById("dealer").innerHTML = dealerHtml;
+}
+
 }
 function deal(){
 let bet=parseInt(document.getElementById("bet").value);
