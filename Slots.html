@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JewCasino Slots</title>
+
+<style>
+
+body{
+background:#0f212e;
+color:white;
+font-family:Arial,sans-serif;
+text-align:center;
+margin:0;
+padding:20px;
+}
+
+.watermark{
+position:fixed;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+opacity:.05;
+pointer-events:none;
+z-index:0;
+}
+
+.watermark img{
+width:600px;
+}
+
+.container{
+position:relative;
+z-index:1;
+}
+
+.card{
+background:#172b3a;
+padding:20px;
+border-radius:15px;
+max-width:800px;
+margin:auto;
+margin-bottom:20px;
+}
+
+input{
+padding:10px;
+border:none;
+border-radius:8px;
+width:120px;
+}
+
+button{
+padding:12px 20px;
+border:none;
+border-radius:10px;
+font-weight:bold;
+cursor:pointer;
+margin:5px;
+}
+
+.reels{
+display:flex;
+justify-content:center;
+gap:20px;
+margin:30px 0;
+}
+
+.reel{
+width:120px;
+height:120px;
+background:#111;
+border:4px solid #444;
+border-radius:15px;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:70px;
+}
+
+#message{
+font-size:28px;
+font-weight:bold;
+margin-top:20px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="watermark">
+<img src="logo.png.png">
+</div>
+
+<div class="container">
+
+<button onclick="location.href='index.html'">🏠 Home</button>
+
+<h1>🎰 Slots</h1>
+
+<div class="card">
+
+<h2>Balance: $<span id="balance">1000</span></h2>
+
+Bet: <input id="bet" type="number" value="25">
+
+<button onclick="spin()">SPIN</button>
+
+<div id="message"></div>
+
+</div>
+
+<div class="reels">
+
+<div class="reel" id="r1">💎</div>
+<div class="reel" id="r2">💎</div>
+<div class="reel" id="r3">💎</div>
+
+</div>
+
+<script>
+
+let balance=parseInt(localStorage.getItem("balance")||1000);
+document.getElementById("balance").innerText=balance;
+
+function save(){
+localStorage.setItem("balance",balance);
+document.getElementById("balance").innerText=balance;
+}
+
+const symbols=[
+"💎",
+"🎲",
+"🃏",
+"💣",
+"🎯",
+"🎡",
+"7️⃣",
+"🍒"
+];
+
+let spinning=false;
+function spin(){
+
+if(spinning)return;
+
+let bet=parseInt(document.getElementById("bet").value);
+
+if(bet<=0||bet>balance){
+alert("Invalid bet");
+return;
+}
+
+spinning=true;
+
+let reels=[
+document.getElementById("r1"),
+document.getElementById("r2"),
+document.getElementById("r3")
+];
+
+let counter=0;
+
+let animation=setInterval(function(){
+
+reels[0].innerText=
+symbols[Math.floor(Math.random()*symbols.length)];
+
+reels[1].innerText=
+symbols[Math.floor(Math.random()*symbols.length)];
+
+reels[2].innerText=
+symbols[Math.floor(Math.random()*symbols.length)];
+
+counter++;
+
+if(counter>=20){
+
+clearInterval(animation);
+
+let s1=symbols[Math.floor(Math.random()*symbols.length)];
+let s2=symbols[Math.floor(Math.random()*symbols.length)];
+let s3=symbols[Math.floor(Math.random()*symbols.length)];
+
+reels[0].innerText=s1;
+reels[1].innerText=s2;
+reels[2].innerText=s3;
+
+let payout=0;
+
+if(s1===s2 && s2===s3){
+
+if(s1==="💎"){
+payout=bet*20;
+}else if(s1==="7️⃣"){
+payout=bet*10;
+}else if(s1==="🍒"){
+payout=bet*5;
+}else{
+payout=bet*3;
+}
+
+balance=balance-bet+payout;
+
+document.getElementById("message").innerText=
+"🎉 JACKPOT! Won $"+payout;
+
+}else if(
+s1===s2 ||
+s1===s3 ||
+s2===s3
+){
+
+payout=Math.floor(bet*1.5);
+
+balance=balance-bet+payout;
+
+document.getElementById("message").innerText=
+"✨ Pair! Won $"+payout;
+
+}else{
+
+balance-=bet;
+
+document.getElementById("message").innerText=
+"❌ No Match";
+
+}
+
+save();
+
+spinning=false;
+
+}
+
+},100);
+
+}
+
+</script>
+
+</body>
+</html>
